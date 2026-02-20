@@ -1,10 +1,9 @@
 interface ActionButtonProps {
   children: React.ReactNode;
-  icon: "plus" | "minus";
   onClick?: () => void;
 }
 
-export default function ActionButton({ children, icon, onClick }: ActionButtonProps) {
+export default function ActionButton({ children, onClick }: ActionButtonProps) {
   return (
     <button
       onClick={onClick}
@@ -12,7 +11,7 @@ export default function ActionButton({ children, icon, onClick }: ActionButtonPr
     >
       {children}
       <span className="flex items-center justify-center w-5 h-5 xl:w-6 xl:h-6 text-xs xl:text-sm rounded-full bg-white text-black">
-        {icon === "plus" ? "+" : "−"}
+        +
       </span>
     </button>
   );

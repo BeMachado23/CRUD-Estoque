@@ -15,8 +15,18 @@ export interface ProdutoRequest {
         quantidade: number;
 }
 
-export async function listarProdutos(): Promise<Produto[]> {
-        const response = await fetch(`${API_URL}/produtos`);
+export interface PaginacaoResponse {
+        content: Produto[];
+        totalElements: number;
+        totalPages: number;
+        size: number;
+        number: number;
+        first: boolean;
+        last: boolean;
+}
+
+export async function listarProdutos(page: number = 0, size: number = 10): Promise<PaginacaoResponse> {
+        const response = await fetch(`${API_URL}/produtos?page=${page}&size=${size}`);
         if (!response.ok) {
                 throw new Error("Erro ao buscar produtos");
         }

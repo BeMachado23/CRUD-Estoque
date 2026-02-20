@@ -1,19 +1,21 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import SearchBar from "./ui/SearchBar";
 import ActionButton from "./ui/ActionButton";
 import TabelaProdutos, { Produto } from "./ui/TabelaProdutos";
 import ModalCadastrarProduto from "./ui/ModalCadastrarProduto";
-import ModalExcluirProduto from "./ui/ModalExcluirProduto";
 import * as api from "../services/api";
 
 export default function Estoque() {
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [modalCadastroAberto, setModalCadastroAberto] = useState(false);
-  const [modalExcluirAberto, setModalExcluirAberto] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [busca, setBusca] = useState("");
+  const [paginaAtual, setPaginaAtual] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const observerTarget = useRef<HTMLDivElement>(null);
 
   // Filtrar produtos pela busca
   const produtosFiltrados = produtos.filter((produto) =>
@@ -22,19 +24,58 @@ export default function Estoque() {
 
   // Carregar produtos ao montar o componente
   useEffect(() => {
-    carregarProdutos();
+    carregarProdutos(0, true);
   }, []);
 
-  const carregarProdutos = async () => {
+  const carregarProdutos = async (page: number, reset: boolean = false) => {
+    if (reset) {
+      setLoading(true);
+    } else {
+      setLoadingMore(true);
+    }
+
     try {
-      const data = await api.listarProdutos();
-      setProdutos(data);
+      const data = await api.listarProdutos(page, 10);
+      
+      if (reset) {
+        setProdutos(data.content);
+      } else {
+        setProdutos((prev) => [...prev, ...data.content]);
+      }
+      
+      setHasMore(!data.last);
+      setPaginaAtual(page);
     } catch (error) {
       console.error("Erro ao carregar produtos:", error);
     } finally {
       setLoading(false);
+      setLoadingMore(false);
     }
   };
+
+  // Observar o elemento sentinela para carregar mais
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loadingMore && !loading) {
+          carregarProdutos(paginaAtual + 1, false);
+        }
+      },
+      { threshold: 1.0 }
+    );
+
+    const currentTarget = observerTarget.current;
+    
+    if (currentTarget) {
+      observer.observe(currentTarget);
+    }
+
+    return () => {
+      if (currentTarget) {
+        observer.unobserve(currentTarget);
+      }
+    };
+  }, [hasMore, loadingMore, loading, paginaAtual]);
 
   const handleUpdateQuantidade = async (id: number, delta: number) => {
     const produto = produtos.find((p) => p.id === id);
@@ -122,8 +163,7 @@ export default function Estoque() {
         <div className="max-w-5xl xl:max-w-6xl mx-auto flex items-center justify-between">
           <SearchBar value={busca} onChange={setBusca} />
           <div className="flex items-center gap-3 xl:gap-4">
-            <ActionButton icon="plus" onClick={() => setModalCadastroAberto(true)}>Cadastrar produto</ActionButton>
-            <ActionButton icon="minus" onClick={() => setModalExcluirAberto(true)}>Excluir produto</ActionButton>
+            <ActionButton onClick={() => setModalCadastroAberto(true)}>Cadastrar produto</ActionButton>
           </div>
         </div>
       </header>
@@ -135,12 +175,32 @@ export default function Estoque() {
             <p className="text-gray-500">Carregando produtos...</p>
           </div>
         ) : (
-          <TabelaProdutos
-            produtos={produtosFiltrados}
-            onUpdateQuantidade={handleUpdateQuantidade}
-            onSetQuantidade={handleSetQuantidade}
-            onEditarProduto={handleEditarProduto}
-          />
+          <>
+            <TabelaProdutos
+              produtos={produtosFiltrados}
+              onUpdateQuantidade={handleUpdateQuantidade}
+              onSetQuantidade={handleSetQuantidade}
+              onEditarProduto={handleEditarProduto}
+              onExcluirProduto={handleExcluirProduto}
+            />
+            
+            {/* Elemento sentinela para scroll infinito */}
+            <div ref={observerTarget} className="h-4" />
+            
+            {/* Indicador de carregando mais */}
+            {loadingMore && (
+              <div className="flex justify-center items-center py-6">
+                <p className="text-gray-500">Carregando mais produtos...</p>
+              </div>
+            )}
+            
+            {/* Fim da lista */}
+            {!hasMore && produtos.length > 0 && (
+              <div className="flex justify-center items-center py-6">
+                <p className="text-gray-400 text-sm">Todos os produtos foram carregados</p>
+              </div>
+            )}
+          </>
         )}
       </main>
 
@@ -149,13 +209,6 @@ export default function Estoque() {
         isOpen={modalCadastroAberto}
         onClose={() => setModalCadastroAberto(false)}
         onCadastrar={handleCadastrarProduto}
-      />
-
-    
-      <ModalExcluirProduto
-        isOpen={modalExcluirAberto}
-        onClose={() => setModalExcluirAberto(false)}
-        onExcluir={handleExcluirProduto}
       />
     </div>
   );

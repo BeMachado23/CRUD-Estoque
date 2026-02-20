@@ -4,16 +4,20 @@ import com.estoque.api.dto.ProdutoRequestDTO;
 import com.estoque.api.dto.ProdutoResponseDTO;
 import com.estoque.api.model.Produto;
 import com.estoque.api.repository.ProdutoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service 
+@Service
 public class ProdutoService {
 
     private final ProdutoRepository repository;
 
-    //Injeção via Construtor (boa prática que substitui o @Autowired na variável)
+    // Injeção via Construtor (boa prática que substitui o @Autowired na variável)
     public ProdutoService(ProdutoRepository repository) {
         this.repository = repository;
     }
@@ -23,6 +27,12 @@ public class ProdutoService {
         return repository.findAll().stream()
                 .map(ProdutoResponseDTO::new) // Converte cada Entidade do banco para o DTO de saída
                 .toList();
+    }
+
+    // LISTAR COM PAGINAÇÃO
+    public Page<ProdutoResponseDTO> listarPaginado(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+        return repository.findAll(pageable).map(ProdutoResponseDTO::new);
     }
 
     // CADASTRAR (Create)

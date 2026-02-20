@@ -1,0 +1,58 @@
+import { Produto } from "./TabelaProdutos";
+
+interface ModalConfirmarExclusaoProps {
+  isOpen: boolean;
+  produto: Produto | null;
+  onClose: () => void;
+  onConfirmar: () => void;
+}
+
+export default function ModalConfirmarExclusao({ isOpen, produto, onClose, onConfirmar }: ModalConfirmarExclusaoProps) {
+  if (!isOpen || !produto) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
+
+      {/* Modal */}
+      <div className="relative bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
+        {/* Header */}
+        <div className="bg-[#2C2C32] text-[#f5c518] font-semibold text-base xl:text-lg px-5 py-3 xl:px-6 xl:py-4 rounded-t-lg">
+          Confirmar exclusão
+        </div>
+
+        {/* Body */}
+        <div className="p-5 xl:p-6">
+          <p className="text-gray-800 text-sm xl:text-base mb-4">
+            Tem certeza que deseja excluir o produto:
+          </p>
+          <div className="bg-gray-100 rounded-md p-3 mb-6">
+            <p className="font-semibold text-gray-900">{produto.nome}</p>
+            <p className="text-sm text-gray-600">Tipo: {produto.tipo}</p>
+            <p className="text-sm text-gray-600">Unidade: {produto.unidade}</p>
+          </div>
+          <p className="text-red-600 text-sm">
+            Esta ação não pode ser desfeita.
+          </p>
+        </div>
+
+        {/* Footer */}
+        <div className="flex justify-end gap-3 px-5 pb-5 xl:px-6 xl:pb-6">
+          <button
+            onClick={onClose}
+            className="px-5 py-2 xl:px-6 xl:py-2.5 text-sm xl:text-base font-medium text-gray-800 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={onConfirmar}
+            className="px-5 py-2 xl:px-6 xl:py-2.5 text-sm xl:text-base font-medium text-white bg-red-600 rounded-md hover:bg-red-700 transition-colors"
+          >
+            Excluir
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}

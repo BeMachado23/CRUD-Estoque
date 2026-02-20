@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 interface QuantidadeControleProps {
   quantidade: number;
   onIncrement: () => void;
@@ -6,10 +8,30 @@ interface QuantidadeControleProps {
 }
 
 export default function QuantidadeControle({ quantidade, onIncrement, onDecrement, onChange }: QuantidadeControleProps) {
+  const [valorLocal, setValorLocal] = useState(quantidade);
+
+  // Atualizar valor local quando quantidade externa mudar
+  useEffect(() => {
+    setValorLocal(quantidade);
+  }, [quantidade]);
+
+  // Debounce: atualizar no backend após 500ms de inatividade
+  useEffect(() => {
+    if (valorLocal === quantidade) return; // Não fazer nada se não mudou
+
+    const timeoutId = setTimeout(() => {
+      if (onChange) {
+        onChange(valorLocal);
+      }
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [valorLocal, quantidade, onChange]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const valor = parseInt(e.target.value, 10);
-    if (!isNaN(valor) && valor >= 0 && onChange) {
-      onChange(valor);
+    if (!isNaN(valor) && valor >= 0) {
+      setValorLocal(valor);
     }
   };
 
@@ -24,7 +46,7 @@ export default function QuantidadeControle({ quantidade, onIncrement, onDecremen
       <input
         type="number"
         min="0"
-        value={quantidade}
+        value={valorLocal}
         onChange={handleChange}
         className="w-10 h-5 xl:w-12 xl:h-6 text-center text-xs xl:text-sm border border-gray-300 rounded bg-white outline-none focus:ring-1 focus:ring-[#f5c518] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
       />
