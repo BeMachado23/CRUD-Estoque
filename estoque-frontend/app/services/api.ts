@@ -1,4 +1,9 @@
-const API_URL = "http://localhost:8080";
+const URL_JAVA = "http://localhost:8080";
+const URL_CSHARP = "http://localhost:5213";
+
+// A "Chave de Trilho": altere a variável abaixo para escolher o motor
+const API_URL = URL_CSHARP;
+
 
 export interface Produto {
         id: number;
