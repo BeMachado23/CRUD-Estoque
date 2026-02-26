@@ -89,7 +89,7 @@ function ModalEditarProdutoContent({
               <select
                 value={unidade}
                 onChange={(e) => setUnidade(e.target.value)}
-                className="w-full bg-gray-200 rounded-md px-3 py-2 xl:px-4 xl:py-2.5 text-sm xl:text-base text-gray-800 outline-none focus:ring-2 focus:ring-[#f5c518] cursor-pointer"
+                className="w-full bg-gray-200 rounded-md px-3 py-2 xl:px-4 xl:py-2.5 text-sm xl:text-base text-gray-800 outline-none focus:ring-2 focus:ring-[#f5c518] cursor-pointer appearance-none bg-no-repeat bg-[length:16px_16px] bg-[position:right_12px_center] bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23374151%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%2F%3E%3C%2Fsvg%3E')]"
               >
                 <option value="">Unidade</option>
                 <option value="Kg">Kg</option>
@@ -104,7 +104,7 @@ function ModalEditarProdutoContent({
           <div className="flex justify-end gap-3 mt-6 xl:mt-8">
             <button
               onClick={onClose}
-              className="px-5 py-2 xl:px-6 xl:py-2.5 text-sm xl:text-base font-medium text-gray-800 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+              className="px-5 py-2 xl:px-6 xl:py-2.5 text-sm xl:text-base font-medium text-gray-800 bg-white border border-gray-300 rounded-md hover:bg-gray-200 hover:border-gray-400 transition-colors"
             >
               Cancelar
             </button>

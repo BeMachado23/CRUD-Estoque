@@ -41,7 +41,7 @@ export default function ModalConfirmarExclusao({ isOpen, produto, onClose, onCon
         <div className="flex justify-end gap-3 px-5 pb-5 xl:px-6 xl:pb-6">
           <button
             onClick={onClose}
-            className="px-5 py-2 xl:px-6 xl:py-2.5 text-sm xl:text-base font-medium text-gray-800 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+            className="px-5 py-2 xl:px-6 xl:py-2.5 text-sm xl:text-base font-medium text-gray-800 bg-white border border-gray-300 rounded-md hover:bg-gray-200 hover:border-gray-400 transition-colors"
           >
             Cancelar
           </button>

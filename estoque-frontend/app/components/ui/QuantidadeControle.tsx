@@ -48,7 +48,7 @@ export default function QuantidadeControle({ quantidade, onIncrement, onDecremen
         min="0"
         value={valorLocal}
         onChange={handleChange}
-        className="w-10 h-5 xl:w-12 xl:h-6 text-center text-xs xl:text-sm border border-gray-300 rounded bg-white outline-none focus:ring-1 focus:ring-[#f5c518] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+        className="w-10 h-5 xl:w-12 xl:h-6 text-center text-xs xl:text-sm text-black border border-gray-300 rounded bg-white outline-none focus:ring-1 focus:ring-[#f5c518] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
       />
       <button
         onClick={onDecrement}
