@@ -1,42 +1,38 @@
-# Sistema de Gerenciamento de Estoque (CRUD)
+# Sistema de Gestão de Stock (Estoque)
 
-Este projeto é uma aplicação full-stack para controle de estoque, permitindo gerenciar produtos através de uma interface web moderna conectada a uma API.
+Este é um projeto **Full Stack** desenvolvido para a gestão eficiente de produtos. O sistema permite realizar o CRUD completo com uma interface moderna e carregamento dinâmico de dados.
 
 ## 🚀 Tecnologias Utilizadas
 
-### Backend
-* **Java 17**
-* **Spring Boot 3.4.1**
-* **Spring Data JPA** para persistência
-* **PostgreSQL** como banco de dados relacional
-* **Lombok** para redução de código boilerplate
-* **Bean Validation** para validação de dados
+### **Frontend**
+* **Angular 18+**: Framework principal com arquitetura de *Standalone Components*.
+* **Tailwind CSS**: Estilização responsiva e moderna.
+* **Intersection Observer API**: Implementação de *Infinite Scroll* para otimização da listagem.
 
-### Frontend
-* **Next.js 15.1.4**
-* **React 19**
-* **TypeScript** para tipagem estática
-* **Tailwind CSS** para estilização
-* **Lucide React** para ícones
+### **Backend**
+* **C# / .NET**: API para processamento das regras de negócio.
+* **Entity Framework Core**: ORM para persistência de dados.
+* **PostgreSQL**: Base de dados relacional.
+
+---
 
 ## 🛠️ Como Executar o Projeto
 
-### Pré-requisitos
-* JDK 17 ou superior.
-* Node.js instalado.
-* Instância do PostgreSQL ativa.
+### **1. Configuração da Base de Dados**
+1.  Crie uma base de dados no PostgreSQL chamada `estoque_db`.
+2.  No projeto backend, atualize as credenciais de ligação no ficheiro de configuração.
 
-### 1. Configuração do Backend
-1. Navegue até a pasta `api`.
-2. Configure a conexão com o banco de dados no arquivo `src/main/resources/application.properties`:
-   ```properties
-   spring.datasource.url=jdbc:postgresql://localhost:5432/estoque_db
-   spring.datasource.username=seu_usuario
-   spring.datasource.password=sua_senha
-3. Selecione a pasta `ApiApplication.java`
+---
 
-### 2. Configuracao do Frontend
-1. Navegue até a pasta `estoque-frontend`.
-2. Instale as dependencias com `npm install`
-3. Rode o código  com `npm run dev`
-   
+### **2. Executar o Backend (C#)**
+No terminal, navegue até à pasta da API e execute:
+
+```bash
+# Restaurar dependências
+dotnet restore
+
+# Aplicar as Migrations à base de dados
+dotnet ef database update
+
+# Executar a aplicação
+dotnet run
