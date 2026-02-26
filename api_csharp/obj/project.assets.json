@@ -2206,31 +2206,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\CFLOW\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Bernardo Machado\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\CFLOW\\Documents\\Bernardo - CRUD\\api_csharp\\api_csharp.csproj",
+      "projectUniqueName": "C:\\Users\\Bernardo Machado\\Documents\\CFLOW\\CRUD-Estoque\\api_csharp\\api_csharp.csproj",
       "projectName": "api_csharp",
-      "projectPath": "C:\\Users\\CFLOW\\Documents\\Bernardo - CRUD\\api_csharp\\api_csharp.csproj",
-      "packagesPath": "C:\\Users\\CFLOW\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\CFLOW\\Documents\\Bernardo - CRUD\\api_csharp\\obj\\",
+      "projectPath": "C:\\Users\\Bernardo Machado\\Documents\\CFLOW\\CRUD-Estoque\\api_csharp\\api_csharp.csproj",
+      "packagesPath": "C:\\Users\\Bernardo Machado\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Bernardo Machado\\Documents\\CFLOW\\CRUD-Estoque\\api_csharp\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\CFLOW\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\Bernardo Machado\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

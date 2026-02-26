@@ -1,65 +1,51 @@
-<div class="min-h-screen bg-[#09090b] text-white p-4 md:p-8">
+<div class="min-h-screen bg-[#F3F3F3]">
+  <header class="bg-[#2C2C32] py-4 px-6 xl:py-6 xl:px-8">
+    <div class="max-w-5xl xl:max-w-6xl mx-auto flex items-center justify-between">
+      
+      <app-search-bar 
+        [value]="busca" 
+        (onChange)="atualizarBusca($event)">
+      </app-search-bar>
 
-  <div class="max-w-6xl mx-auto">
-    <header class="flex justify-between items-center mb-8 border-b border-zinc-800 pb-6">
-      <div>
-        <h1 class="text-3xl font-bold tracking-tight text-zinc-100">Estoque</h1>
-        <p class="text-zinc-400">Gerencie seus produtos em tempo real.</p>
-      </div>
-      <div class="bg-zinc-900 px-4 py-2 rounded-lg border border-zinc-800">
-        <span class="text-sm font-medium text-blue-500">Total: {{ produtos.length }} itens</span>
-      </div>
-    </header>
-
-    <div class="bg-zinc-900 rounded-xl border border-zinc-800 overflow-hidden shadow-2xl">
-      <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse">
-          <thead class="bg-zinc-950 text-zinc-400 text-xs uppercase">
-            <tr>
-              <th scope="col" class="px-6 py-4 font-semibold">Produto</th>
-              <th scope="col" class="px-6 py-4 font-semibold">Tipo</th>
-              <th scope="col" class="px-6 py-4 font-semibold">Unidade</th>
-              <th scope="col" class="px-6 py-4 font-semibold text-right">Quantidade</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-zinc-800">
-            <tr *ngFor="let produto of produtos" class="hover:bg-zinc-800/50 transition-all duration-200 group">
-              <td class="px-6 py-4 text-zinc-100">
-                <div class="flex flex-col">
-                  <span class="font-medium">{{ produto.nome }}</span>
-                  <span class="text-xs text-zinc-500">ID: #{{ produto.id }}</span>
-                </div>
-              </td>
-              <td class="px-6 py-4">
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-zinc-800 text-zinc-300">
-                  {{ produto.tipo }}
-                </span>
-              </td>
-              <td class="px-6 py-4 text-zinc-400 text-sm">
-                {{ produto.unidade }}
-              </td>
-              <td class="px-6 py-4 text-right">
-                <span
-                  class="font-mono font-bold"
-                  [ngClass]="produto.quantidade < 100 ? 'text-red-400' : 'text-emerald-400'">
-                  {{ produto.quantidade }}
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div *ngIf="carregando" class="p-8 flex justify-center border-t border-zinc-800">
-        <div class="flex items-center gap-3 text-zinc-400">
-          <div class="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-          <span class="text-sm">Carregando mais produtos...</span>
-        </div>
-      </div>
-
-      <div *ngIf="!temMaisPaginas && produtos.length > 0" class="p-6 text-center text-zinc-500 text-sm border-t border-zinc-800">
-        Você chegou ao fim do catálogo.
+      <div class="flex items-center gap-3 xl:gap-4">
+        <app-action-button (onClick)="abrirModalCadastro()">
+          Cadastrar produto
+        </app-action-button>
       </div>
     </div>
-  </div>
+  </header>
+
+  <main class="max-w-5xl xl:max-w-6xl mx-auto py-6 px-6 xl:py-8 xl:px-8">
+    
+    <div *ngIf="loading" class="flex justify-center items-center py-12">
+      <p class="text-gray-500">Carregando produtos...</p>
+    </div>
+
+    <ng-container *ngIf="!loading">
+      
+      <app-tabela-produtos
+        [produtos]="produtosFiltrados"
+        (onUpdateQuantidade)="handleUpdateQuantidade($event)"
+        (onSetQuantidade)="handleSetQuantidade($event)"
+        (onEditarProduto)="handleEditarProduto($event)"
+        (onExcluirProduto)="handleExcluirProduto($event)">
+      </app-tabela-produtos>
+      
+      <div #observerTarget class="h-4"></div>
+      
+      <div *ngIf="loadingMore" class="flex justify-center items-center py-6">
+        <p class="text-gray-500">Carregando mais produtos...</p>
+      </div>
+      
+      <div *ngIf="!hasMore && produtos.length > 0" class="flex justify-center items-center py-6">
+        <p class="text-gray-400 text-sm">Todos os produtos foram carregados</p>
+      </div>
+    </ng-container>
+  </main>
+
+  <app-modal-cadastrar-produto
+    [isOpen]="modalCadastroAberto"
+    (onClose)="fecharModalCadastro()"
+    (onCadastrar)="handleCadastrarProduto($event)">
+  </app-modal-cadastrar-produto>
 </div>
